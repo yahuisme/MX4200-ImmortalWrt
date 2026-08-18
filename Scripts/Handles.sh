@@ -199,18 +199,7 @@ if [ -n "$HP_DIR" ]; then
 	fi
 fi
 
-#修改argon主题字体和颜色
-if [ -d "$PKG_PATH/luci-theme-argon" ]; then
-	echo " "
-	if sed -i "s/primary '.*'/primary '#31a1a1'/; s/'0.2'/'0.5'/; s/'none'/'bing'/; s/'600'/'normal'/" \
-		"$PKG_PATH/luci-theme-argon/luci-app-argon-config/root/etc/config/argon"; then
-		echo "theme-argon has been fixed!"
-	else
-		echo "theme-argon fix failed; continuing!"
-	fi
-fi
-
-#修改aurora菜单式样
+# 修改 Aurora 菜单式样
 if [ -d "$PKG_PATH/luci-app-aurora-config" ]; then
 	echo " "
 	if find "$PKG_PATH/luci-app-aurora-config/root/usr/share/aurora/" -type f -name '*.template' -exec \
@@ -218,17 +207,6 @@ if [ -d "$PKG_PATH/luci-app-aurora-config" ]; then
 		echo "theme-aurora has been fixed!"
 	else
 		echo "theme-aurora fix failed; continuing!"
-	fi
-fi
-
-#修改mini-diskmanager菜单位置
-if [ -d "$PKG_PATH/luci-app-mini-diskmanager" ]; then
-	echo " "
-	if sed -i "s/services/system/g" \
-		"$PKG_PATH/luci-app-mini-diskmanager/luci-app-mini-diskmanager/root/usr/share/luci/menu.d/luci-app-mini-diskmanager.json"; then
-		echo "mini-diskmanager has been fixed!"
-	else
-		echo "mini-diskmanager fix failed; continuing!"
 	fi
 fi
 
