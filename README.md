@@ -1,62 +1,25 @@
-# 高质量<免费>交流群
+# AI 自动构建的 MX4200 系列 ImmortalWrt 固件
 
-点击链接加入群聊【IPQ技术讨论群】：https://qm.qq.com/q/v7nMhzB4oU
-该群为普通交流群。
+本项目通过 GitHub Actions 自动构建面向 Linksys MX4200 系列的 ImmortalWrt 固件。
 
-# 高质量<付费>中转站
+## 支持设备
 
-点击链接加入群聊【LiBwrt-Ai学习】：https://qm.qq.com/q/HTa7OiWNCU
-该群为AI中转站群。
+- Linksys MX4200v1
+- Linksys MX4200v2
 
-# 本地编译器
+## 自动构建
 
-https://github.com/VIKINGYFY/OWRT-Tools.git
+- 每天北京时间晚上 7 点自动构建。
+- 固件基于 [VIKINGYFY/immortalwrt](https://github.com/VIKINGYFY/immortalwrt) 的 `main` 分支。
+- Release 中会包含本次构建的固件文件及所用 `.config`，固件名称中的时间为构建开始时间，便于核对上游源码提交。
+- 也可在 GitHub Actions 的 **MX4200** 工作流中手动触发构建。
 
-# 自用修改版插件
+## 目录说明
 
-https://github.com/VIKINGYFY/packages.git
+- `.github/workflows/`：GitHub Actions 构建流程
+- `Config/MX4200.txt`：仅选择 MX4200v1 与 MX4200v2 的目标配置
+- `Scripts/`：沿用上游项目的自定义构建脚本
 
-# OpenWRT-CI
+## 说明
 
-官方版：
-
-https://github.com/immortalwrt/immortalwrt.git
-
-自用版：
-
-https://github.com/VIKINGYFY/immortalwrt.git
-
-# U-BOOT
-
-高通版-沉心：
-
-https://github.com/chenxin527/uboot-qsdk12.5-build.git
-
-高通版-小猪：
-
-https://github.com/1980490718/u-boot-2016.git
-
-联发科-全新版：
-
-https://github.com/VIKINGYFY/UBOOT-CI/releases
-
-联发科-官方版：
-
-https://drive.wrt.moe/uboot/mediatek
-
-# 固件简要说明
-
-仅编译 Linksys MX4200v1 和 Linksys MX4200v2 固件；每天北京时间晚上 7 点自动编译。
-
-固件信息里的时间为编译开始的时间，方便核对上游源码提交时间。
-
-# 目录简要说明
-
-workflows——自定义CI配置
-
-Scripts——自定义脚本
-
-Config——自定义配置
-
-#
-[![Stargazers over time](https://starchart.cc/VIKINGYFY/OpenWRT-CI.svg?variant=adaptive)](https://starchart.cc/VIKINGYFY/OpenWRT-CI)
+本项目仅调整构建编排与设备选择；其余构建逻辑、脚本和软件包配置继续沿用上游项目。
