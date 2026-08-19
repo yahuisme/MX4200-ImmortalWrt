@@ -11,7 +11,8 @@
 
 - 每天北京时间晚上 7 点自动构建。
 - 固件基于 [VIKINGYFY/immortalwrt](https://github.com/VIKINGYFY/immortalwrt) 的 `main` 分支。
-- Release 中会包含本次构建的固件文件及所用 `.config`，固件名称中的时间为构建开始时间，便于核对上游源码提交。
+- 基于上游 qualcommax/IPQ807x 的开源 NSS 加速栈构建。
+- 每个 Release 仅包含 MX4200v1 / MX4200v2 各自的 `factory.bin` 与 `sysupgrade.bin`；名称中的时间为构建开始时间，便于核对上游源码提交。
 - 也可在 GitHub Actions 的 **MX4200** 工作流中手动触发构建。
 
 ## 目录说明

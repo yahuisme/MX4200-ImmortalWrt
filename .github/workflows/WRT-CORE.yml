@@ -238,6 +238,10 @@ jobs:
             - Linksys MX4200v1
             - Linksys MX4200v2
 
+            ### 固件特性
+            - 基于上游 qualcommax/IPQ807x 的开源 NSS 加速栈构建。
+            - 本 Release 仅包含 MX4200v1 / MX4200v2 各自的 `factory.bin` 与 `sysupgrade.bin`。
+
             ### 固件选择
             - **factory.bin**：首次从原厂固件或其它非 OpenWrt 系统刷入时使用；务必选择与硬件版本对应的文件。
             - **sysupgrade.bin**：已运行 OpenWrt / ImmortalWrt 时升级使用；建议先执行 `sysupgrade -T` 校验镜像。
