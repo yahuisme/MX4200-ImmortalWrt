@@ -2,7 +2,7 @@
 # Copyright (C) 2026 VIKINGYFY
 
 # Linksys MX4200v1 / MX4200v2 每日编译
-name: MX4200
+name: MX4200 ImmortalWrt Builds
 
 on:
   # GitHub Actions 使用 UTC；香港时间每天 18:00 = UTC 10:00
