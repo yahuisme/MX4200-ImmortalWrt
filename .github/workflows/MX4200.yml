@@ -5,9 +5,9 @@
 name: MX4200
 
 on:
-  # GitHub Actions 使用 UTC；北京时间每天 19:00 = UTC 11:00
+  # GitHub Actions 使用 UTC；香港时间每天 16:00 = UTC 08:00
   schedule:
-    - cron: '0 11 * * *'
+    - cron: '0 8 * * *'
   workflow_dispatch:
     inputs:
       PACKAGE:
