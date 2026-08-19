@@ -75,24 +75,43 @@ jobs:
       - name: Checkout Projects
         uses: actions/checkout@main
 
-      - name: Initialization Environment
+      # GitHub-hosted runners are ephemeral: avoid a full OS upgrade, which
+      # adds no build value and can hang on transient APT mirror/lock issues.
+      - name: Remove Firefox
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo -E apt -yqq purge firefox
-          sudo -E apt -yqq update
-          sudo -E apt -yqq full-upgrade
-          sudo -E apt -yqq autoremove --purge
-          sudo -E apt -yqq autoclean
-          sudo -E apt -yqq clean
-          sudo -E apt -yqq install dos2unix libfuse-dev
-          sudo bash -c 'bash <(curl -sL https://build-scripts.immortalwrt.org/init_build_environment.sh)'
-          sudo -E systemctl daemon-reload
-          sudo -E timedatectl set-timezone "Asia/Shanghai"
+          sudo apt-get -yq purge firefox
 
+      - name: Install build prerequisites
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          for attempt in 1 2 3; do
+            if sudo apt-get -o Acquire::Retries=3 -o DPkg::Lock::Timeout=120 -yq update && \
+               sudo apt-get -o Acquire::Retries=3 -o DPkg::Lock::Timeout=120 -yq install dos2unix libfuse-dev; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              echo "::error::Failed to install build prerequisites after ${attempt} attempts."
+              exit 1
+            fi
+            sleep $((attempt * 10))
+          done
+
+      - name: Initialize ImmortalWrt build environment
+        run: |
+          curl --fail --show-error --location --retry 3 --retry-all-errors --connect-timeout 30 --max-time 300 \
+            https://build-scripts.immortalwrt.org/init_build_environment.sh \
+            | sudo bash
+          sudo systemctl daemon-reload
+          sudo timedatectl set-timezone "Asia/Shanghai"
+
+      - name: Prepare build workspace
+        run: |
           sudo mkdir -p /mnt/build_wrt
           sudo chown $USER:$USER /mnt/build_wrt
-          sudo ln -s /mnt/build_wrt $GITHUB_WORKSPACE/wrt
+          ln -s /mnt/build_wrt "$GITHUB_WORKSPACE/wrt"
 
       - name: Initialization Values
         run: |
