@@ -217,8 +217,6 @@ jobs:
         run: |
           cd ./wrt/ && mkdir ./upload/
 
-          cp -f ./.config ./upload/Config-"$WRT_CONFIG"-"$WRT_INFO"-"$WRT_BRANCH"-"$WRT_DATE".txt
-
           if [[ $WRT_TEST != 'true' ]]; then
             echo "WRT_KVER=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^kernel - \K[\d\.]+' {} \;)" >> $GITHUB_ENV
             echo "WRT_LIST=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^luci-(app|theme)[^ ]*' {} \; | tr '\n' ' ')" >> $GITHUB_ENV
@@ -240,15 +238,6 @@ jobs:
             本 Release 仅包含以下设备的带 Wi-Fi 固件：
             - Linksys MX4200v1
             - Linksys MX4200v2
-
-            ### 固件特性
-            - 基于上游 qualcommax/IPQ807x 的开源 NSS 加速栈构建。
-            - 本 Release 仅包含 MX4200v1 / MX4200v2 各自的 `factory.bin` 与 `sysupgrade.bin`。
-
-            ### 固件选择
-            - **factory.bin**：首次从原厂固件或其它非 OpenWrt 系统刷入时使用；务必选择与硬件版本对应的文件。
-            - **sysupgrade.bin**：已运行 OpenWrt / ImmortalWrt 时升级使用；建议先执行 `sysupgrade -T` 校验镜像。
-            - 刷写请使用有线连接并保持稳定供电；不要使用不匹配机型或硬件版本的镜像。
 
             ### 本次构建
             - 上游源码：${{env.WRT_REPO}}
