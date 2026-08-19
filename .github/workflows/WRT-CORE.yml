@@ -263,3 +263,13 @@ jobs:
 
             ### LuCI 组件
             ${{env.WRT_LIST}}
+
+      - name: Keep Latest MX4200 Release
+        if: env.WRT_TEST != 'true'
+        env:
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          gh release list --json tagName --jq '.[].tagName' | \
+            grep '^MX4200_' | \
+            grep -Fxv "$WRT_RELEASE_NAME" | \
+            xargs -r -n1 gh release delete --cleanup-tag -y
