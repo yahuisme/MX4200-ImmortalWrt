@@ -46,6 +46,9 @@ on:
       WRT_RELEASE_PREFIX:
         required: false
         type: string
+      WRT_RELEASE_PRODUCT:
+        required: false
+        type: string
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -62,6 +65,7 @@ env:
   WRT_PACKAGE: ${{inputs.WRT_PACKAGE}}
   WRT_TEST: ${{inputs.WRT_TEST}}
   WRT_RELEASE_PREFIX: ${{inputs.WRT_RELEASE_PREFIX}}
+  WRT_RELEASE_PRODUCT: ${{inputs.WRT_RELEASE_PRODUCT}}
 
 jobs:
   core:
@@ -93,8 +97,8 @@ jobs:
       - name: Initialization Values
         run: |
           echo "WRT_DATE=$(TZ=Asia/Shanghai date +'%y.%m.%d-%H.%M.%S')" >> $GITHUB_ENV
-          echo "WRT_INFO=${WRT_SOURCE%%/*}" >> $GITHUB_ENV
-          echo "WRT_RELEASE_NAME=${WRT_RELEASE_PREFIX:-$WRT_CONFIG}_${WRT_INFO}_${WRT_DATE}" >> $GITHUB_ENV
+          echo "WRT_INFO=${WRT_SOURCE##*/}" >> $GITHUB_ENV
+          echo "WRT_RELEASE_NAME=${WRT_RELEASE_PREFIX:-$WRT_CONFIG}_${WRT_RELEASE_PRODUCT:-$WRT_INFO}_${WRT_DATE}" >> $GITHUB_ENV
           echo "WRT_TARGET=$(grep -m 1 -oP '^CONFIG_TARGET_\K[\w]+(?=\=y)' ./Config/$WRT_CONFIG.txt)" >> $GITHUB_ENV
           echo "WRT_WIFI=wifi-yes" >> $GITHUB_ENV
           echo "WRT_KVER=none" >> $GITHUB_ENV
