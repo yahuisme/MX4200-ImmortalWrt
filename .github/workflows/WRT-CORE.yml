@@ -232,24 +232,30 @@ jobs:
           name: ${{env.WRT_RELEASE_NAME}}
           files: ./wrt/upload/*.*
           body: |
-            这是个平台固件包，内含多个设备！
-            请注意选择你需要的设备固件！
-            不要问，刷就完事了！
+            ## Linksys MX4200 系列 ImmortalWrt 固件
 
-            全系带开源硬件加速，别问了！
+            本 Release 仅包含以下设备的带 Wi-Fi 固件：
+            - Linksys MX4200v1
+            - Linksys MX4200v2
 
-            源码：${{env.WRT_REPO}}
-            分支：${{env.WRT_BRANCH}}
-            提交：${{env.WRT_HASH}}
+            ### 固件选择
+            - **factory.bin**：首次从原厂固件或其它非 OpenWrt 系统刷入时使用；务必选择与硬件版本对应的文件。
+            - **sysupgrade.bin**：已运行 OpenWrt / ImmortalWrt 时升级使用；建议先执行 `sysupgrade -T` 校验镜像。
+            - 刷写请使用有线连接并保持稳定供电；不要使用不匹配机型或硬件版本的镜像。
 
-            配置：${{env.WRT_CONFIG}}
-            平台：${{env.WRT_TARGET}}
+            ### 本次构建
+            - 上游源码：${{env.WRT_REPO}}
+            - 分支：${{env.WRT_BRANCH}}
+            - 上游提交：${{env.WRT_HASH}}
+            - 配置：${{env.WRT_CONFIG}}
+            - 平台：${{env.WRT_TARGET}}
+            - 内核版本：${{env.WRT_KVER}}
 
-            登录地址：${{env.WRT_IP}}
-            登录密码：${{env.WRT_PW}}
+            ### 默认访问
+            - 管理地址：${{env.WRT_IP}}
+            - 管理密码：${{env.WRT_PW}}
+            - Wi-Fi SSID：${{env.WRT_SSID}}
+            - Wi-Fi 密码：${{env.WRT_WORD}}
 
-            WIFI名称：${{env.WRT_SSID}}
-            WIFI密码：${{env.WRT_WORD}}
-
-            内核版本：${{env.WRT_KVER}}
-            插件列表：${{env.WRT_LIST}}
+            ### LuCI 组件
+            ${{env.WRT_LIST}}
