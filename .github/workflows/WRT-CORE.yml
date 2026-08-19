@@ -96,9 +96,12 @@ jobs:
 
       - name: Initialization Values
         run: |
-          echo "WRT_DATE=$(TZ=Asia/Shanghai date +'%y.%m.%d-%H.%M.%S')" >> $GITHUB_ENV
-          echo "WRT_INFO=${WRT_SOURCE##*/}" >> $GITHUB_ENV
-          echo "WRT_RELEASE_NAME=${WRT_RELEASE_PREFIX:-$WRT_CONFIG}_${WRT_RELEASE_PRODUCT:-$WRT_INFO}_${WRT_DATE}" >> $GITHUB_ENV
+          WRT_DATE="$(TZ=Asia/Shanghai date +'%y.%m.%d-%H.%M.%S')"
+          WRT_INFO="${WRT_SOURCE##*/}"
+          WRT_RELEASE_NAME="${WRT_RELEASE_PREFIX:-$WRT_CONFIG}_${WRT_RELEASE_PRODUCT:-$WRT_INFO}_${WRT_DATE}"
+          echo "WRT_DATE=$WRT_DATE" >> $GITHUB_ENV
+          echo "WRT_INFO=$WRT_INFO" >> $GITHUB_ENV
+          echo "WRT_RELEASE_NAME=$WRT_RELEASE_NAME" >> $GITHUB_ENV
           echo "WRT_TARGET=$(grep -m 1 -oP '^CONFIG_TARGET_\K[\w]+(?=\=y)' ./Config/$WRT_CONFIG.txt)" >> $GITHUB_ENV
           echo "WRT_WIFI=wifi-yes" >> $GITHUB_ENV
           echo "WRT_KVER=none" >> $GITHUB_ENV
