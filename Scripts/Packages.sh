@@ -50,7 +50,28 @@ UPDATE_PACKAGE() {
 UPDATE_PACKAGE "aurora" "eamonxg/luci-theme-aurora" "master"
 UPDATE_PACKAGE "aurora-config" "eamonxg/luci-app-aurora-config" "master"
 
-UPDATE_PACKAGE "momo" "nikkinikki-org/OpenWrt-momo" "main"
+# 导入 HomeProxy 与配套 sing-box（仅这两个包，最小闭包；VIKINGYFY 每日更新最新版）
+rm -rf ./luci-app-homeproxy ./sing-box /tmp/viking-packages
+find ../feeds/luci/ ../feeds/packages/ -maxdepth 3 -type d \
+	\( -iname '*luci-app-homeproxy*' -o -iname '*sing-box*' \) -exec rm -rf {} + 2>/dev/null
+
+if ! git clone --depth=1 --single-branch --branch main \
+	https://github.com/VIKINGYFY/packages.git /tmp/viking-packages
+then
+	echo "ERROR: Failed to download VIKINGYFY/packages!"
+	exit 1
+fi
+
+for package_name in luci-app-homeproxy sing-box; do
+	if [ ! -f "/tmp/viking-packages/$package_name/Makefile" ]; then
+		echo "ERROR: $package_name is missing from VIKINGYFY/packages!"
+		exit 1
+	fi
+	cp -a "/tmp/viking-packages/$package_name" "./$package_name"
+done
+
+rm -rf /tmp/viking-packages
+echo "HomeProxy and sing-box installed from VIKINGYFY/packages."
 
 #更新软件包版本
 UPDATE_VERSION() {
@@ -94,7 +115,7 @@ UPDATE_VERSION() {
 }
 
 #UPDATE_VERSION "软件包名" "测试版，true，可选，默认为否"
-UPDATE_VERSION "sing-box"
+#UPDATE_VERSION "sing-box"
 
 #引入私有扩展脚本
 if [ -f "$GITHUB_WORKSPACE/Scripts/PRIVATE.sh" ]; then
