@@ -31,6 +31,11 @@ sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
 #修改默认主机名
 sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 
+#拷贝 MX4200 首启默认脚本（机型主机名/时区/无线默认）
+mkdir -p ./package/base-files/files/etc/uci-defaults/
+cp "$GITHUB_WORKSPACE/files/etc/uci-defaults/99-mx4200-defaults" ./package/base-files/files/etc/uci-defaults/99-mx4200-defaults
+chmod +x ./package/base-files/files/etc/uci-defaults/99-mx4200-defaults
+
 #配置文件修改
 echo "CONFIG_PACKAGE_luci=y" >> ./.config
 echo "CONFIG_LUCI_LANG_zh_Hans=y" >> ./.config
